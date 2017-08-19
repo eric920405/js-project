@@ -22,69 +22,69 @@
 	<br>
 	<ul class="nav navbar-nav navbar-left">
 		<li><a href="#">連結</a></li>
-    	<li class="dropdown">
-    		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-    		<ul class="dropdown-menu">
-        		<li><a href="html/1.html">Action</a></li>
-        		<li><a href="html/2.html">Another action</a></li>
-        		<li><a href="#">Something else here</a></li>
-        		<li role="separator" class="divider"></li>
-        		<li><a href="#">Separated link</a></li>
-    		</ul>
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<li><a href="html/1.html">1</a></li>
+				<li><a href="html/2.html">2</a></li>
+				<li><a href="html/3.html">3</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#">Separated link</a></li>
+			</ul>
 		</li>
 	</ul>
 	<br>
 	<br>
 	<br>
 	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  		輸入資料
+		輸入資料
 	</button>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  	<div class="modal-dialog" role="document">
-   		<div class="modal-content">
-     	<div class="modal-header">
-        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        	<h4 class="modal-title" id="myModalLabel">輸入資料</h4>
-      	</div>
-      	<div class="modal-body">
-        	<p>名字:<input type="text" id="name"></p>
-        	<br>
-        	<p>年齡:<input type="text" id="age"></p>
-        	<br>
-        	<p><input type="checkbox" id="orange"> 橘子</p>
-        	<br>
-        	<p><input type="checkbox" id="apple"> 蘋果</p>
-      	</div>
-      	<div class="modal-footer">
-       		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        	<button type="button" class="btn btn-primary" id="save-btn">Save changes</button>
-      		</div>
-    	</div>
-  	</div>
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">輸入資料</h4>
+				</div>
+				<div class="modal-body">
+					<p>名字:<input type="text" id="name"></p>
+					<br>
+					<p>年齡:<input type="text" id="age"></p>
+					<br>
+					<p><input type="checkbox" id="orange"> 橘子</p>
+					<br>
+					<p><input type="checkbox" id="apple"> 蘋果</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="save-btn">Save changes</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
 
 <script type="text/javascript">
-function as(cc,dd){
-	if(cc){
-		return dd;
-	}else{
-		return "";
+	function as(cc,dd){
+		if(cc){
+			return dd;
+		}else{
+			return "";
+		}
 	}
-}
 
 	$("#save-btn").click(function(){
-	var name = $("#name").val();
-	var age = $("#age").val();
-	var orange = $("#orange").prop("checked");
-	var apple = $("#apple").prop("checked");
-	var o = "橘子 ";
-	var a = "蘋果";
-	if(orange==true||apple==true){
-		alert("Hello,"+age+"歲的"+name+"。原來你喜歡吃 "+as(orange,o)+as(apple,a));
-	}else{
-		alert("Hello,"+age+"歲的"+name+"。");
-	}	
-});
+		var name = $("#name").val();
+		var age = $("#age").val();
+		var orange = $("#orange").prop("checked");
+		var apple = $("#apple").prop("checked");
+		var o = "橘子 ";
+		var a = "蘋果";
+		if(orange==true||apple==true){
+			alert("Hello,"+age+"歲的"+name+"。原來你喜歡吃 "+as(orange,o)+as(apple,a));
+		}else{
+			alert("Hello,"+age+"歲的"+name+"。");
+		}	
+	});
 </script>
