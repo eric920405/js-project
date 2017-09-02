@@ -9,20 +9,20 @@
 	<title>.....</title>
 </head>
 <body>
-	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-		輸入資料
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+		insert
 	</button>
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">輸入資料</h4>
+					<h4 class="modal-title" id="myModalLabel">insert</h4>
 				</div>
 				<div class="modal-body">
-					<p>名字:<input type="text" id="name"></p>
+					<p>name:<input type="text" id="name"></p>
 					<br>
-					<p>年齡:<input type="text" id="age"></p>
+					<p>age:<input type="text" id="age"></p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -31,23 +31,55 @@
 			</div>
 		</div>
 	</div>
+	<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>
+						name
+					</th>
+					<th>
+						age
+					</th>
+					<th>
+						action
+					</th>
+				</tr>
+			</thead>
+			<tbody class="tbody">
+				
+			</tbody>
+	</table>
 </body>
 </html>
 <script type="text/javascript">
 	var fdb = new ForerunnerDB();
 	var db = fdb.db("db");
 	var students = db.collection("students");
-	students.load();
 	var aname;
 	var aage;
+	var aid = 1;
+	var array;
+	var aobject;
 	$("#savebtn").click(function(){
 		aname = $("#name").val();
 		aage = $("#age").val();
 		students.insert({
 			name : aname,
-			age : aage
+			age : aage,
+			id : aid
 		});
-		students.save();
-		console.log(students.find());
+		aobject = students.find({
+			id : aid
+		});
+		$(".tbody").append("<tr><td>"+aname+"</td><td>"+aage+"</td><td><button type='button' class='btn btn-warning btn-correct'>correct</button><button type='button' class='btn btn-danger btn-remove' value="+aobject[0]._id+" data-remove="+aid+">remove</button>");
+		aid += 1;
+		array = students.find();
+	});
+	$('.tbody').on("click", ".btn-remove",function(){
+		students.remove({
+			id : $(this).data("remove")
+		})
+		$($(this).closest('tr')).remove();
+		array = students.find();
 	});
 </script>
