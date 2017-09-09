@@ -26,7 +26,26 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="savebtn">Save changes</button>
+					<button type="button" class="btn btn-primary" id="savebtn">Add</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" class="changemodle" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">correct</h4>
+				</div>
+				<div class="modal-body">
+					<p>name:<input type="text" class="cname"></p>
+					<br>
+					<p>age:<input type="text" class="cage"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" class="changebtn" data-dismiss="modal">Save changes</button>
 				</div>
 			</div>
 		</div>
@@ -71,15 +90,32 @@
 		aobject = students.find({
 			id : aid
 		});
-		$(".tbody").append("<tr><td>"+aname+"</td><td>"+aage+"</td><td><button type='button' class='btn btn-warning btn-correct'>correct</button><button type='button' class='btn btn-danger btn-remove' value="+aobject[0]._id+" data-remove="+aid+">remove</button>");
+		$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button>");
+		$('body').append('<div class="modal fade changemodle" id ='+aobject[0]._id+' tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">correct</h4></div><div class="modal-body"><p>name:<input type="text" class="cname"></p><br><p>age:<input type="text" class="cage"></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary changebtn" data-dismiss="modal" data-change='+aobject[0]._id+'>Save changes</button></div></div></div></div>');
 		aid += 1;
 		array = students.find();
 	});
 	$('.tbody').on("click", ".btn-remove",function(){
 		students.remove({
-			id : $(this).data("remove")
+			_id : $(this).data("remove")
 		})
 		$($(this).closest('tr')).remove();
 		array = students.find();
 	});
+	$('body').on("click",".changebtn",function(){
+		var newdata = {
+			name:"",
+			age:""
+		}
+		var olddata = {
+			_id:$(this).data("change")
+		}
+		newdata.name = $($($(this).closest('.changemodle')).find('.cname')).val();
+		newdata.age = $($($(this).closest('.changemodle')).find('.cage')).val();
+		students.updateById(olddata._id,newdata);
+		$($('.tbody').find("[data-name='" + $(this).data("change") + "']")).text(newdata.name);
+		$($('.tbody').find("[data-age='" + $(this).data("change") + "']")).text(newdata.age);
+		array = students.find();
+	});
+
 </script>
