@@ -50,6 +50,41 @@
 			</div>
 		</div>
 	</div>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#search">
+		search
+	</button>
+	<div class="modal fade" id="search" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">search</h4>
+				</div>
+				<div class="modal-body">
+					<p>bigger then<input id="big" type="checkbox">age:<input type="text" id="searchage"></p>
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>
+									name
+								</th>
+								<th>
+									age
+								</th>
+							</tr>
+						</thead>
+						<tbody id="searchtable">
+				
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="clearsearch">Close</button>
+					<button type="button" class="btn btn-primary" id="searchbtn">search</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<table class="table table-striped">
 			<thead>
 				<tr>
@@ -90,7 +125,7 @@
 		aobject = students.find({
 			id : aid
 		});
-		$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button>");
+		$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button></td></tr>");
 		$('body').append('<div class="modal fade changemodle" id ='+aobject[0]._id+' tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">correct</h4></div><div class="modal-body"><p>name:<input type="text" class="cname"></p><br><p>age:<input type="text" class="cage"></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary changebtn" data-dismiss="modal" data-change='+aobject[0]._id+'>Save changes</button></div></div></div></div>');
 		aid += 1;
 		array = students.find();
@@ -117,5 +152,30 @@
 		$($('.tbody').find("[data-age='" + $(this).data("change") + "']")).text(newdata.age);
 		array = students.find();
 	});
-
+	$('#searchbtn').click(function(){
+		$('#searchtable').find('tr').remove();
+		if($("#big").prop("checked")){
+			var searchage = students.find({
+				age:{
+					$gte:$('#searchage').val()
+				}
+			});
+			for(var i = 0;i<searchage.length;i++){
+				$('#searchtable').append("<tr><td><span class='name' data-name="+searchage[i]._id+">"+searchage[i].name+"</span></td><td><span class='age' data-age="+searchage[i]._id+">"+searchage[i].age+"</span></td></tr>");
+			}
+		}else{
+			var searchage = students.find({
+				age:{
+					$lte:$('#searchage').val()
+				}
+			});
+			for(var i = 0;i<searchage.length;i++){
+				$('#searchtable').append("<tr><td><span class='name' data-name="+searchage[i]._id+">"+searchage[i].name+"</span></td><td><span class='age' data-age="+searchage[i]._id+">"+searchage[i].age+"</span></td></tr>");
+			}
+		}
+	});
+	$('#clearsearch').click(function(){
+		$('#searchtable').find('tr').remove();
+		$('#searchage').val('');
+	})
 </script>
