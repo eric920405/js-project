@@ -61,7 +61,7 @@
 					<h4 class="modal-title" id="myModalLabel">search</h4>
 				</div>
 				<div class="modal-body">
-					<p>bigger then<input id="big" type="checkbox">age:<input type="text" id="searchage"></p>
+					<p><input id="big" type="checkbox"><span id="young" value="young">younger</span> then age:<input type="text" id="searchage"></p>
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -74,7 +74,7 @@
 							</tr>
 						</thead>
 						<tbody id="searchtable">
-				
+
 						</tbody>
 					</table>
 				</div>
@@ -85,23 +85,25 @@
 			</div>
 		</div>
 	</div>
+	<button type="button" class="btn btn-primary" id="bts">big -> small</button>
+	<button type="button" class="btn btn-primary" id="stb">small -> big</button>
 	<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>
-						name
-					</th>
-					<th>
-						age
-					</th>
-					<th>
-						action
-					</th>
-				</tr>
-			</thead>
-			<tbody class="tbody">
-				
-			</tbody>
+		<thead>
+			<tr>
+				<th>
+					name
+				</th>
+				<th>
+					age
+				</th>
+				<th>
+					action
+				</th>
+			</tr>
+		</thead>
+		<tbody class="tbody">
+
+		</tbody>
 	</table>
 </body>
 </html>
@@ -175,7 +177,65 @@
 		}
 	});
 	$('#clearsearch').click(function(){
-		$('#searchtable').find('tr').remove();
+		$($('#searchtable').find('tr')).remove();
 		$('#searchage').val('');
+	})
+	$('#bts').click(function(){
+		array = students.find();
+		var newarray = Array(array.length);
+		for(var i = 0;i<newarray.length;i++){
+			var count = newarray.length-1;
+			for(var ii = 0;ii<newarray.length;ii++){
+				if(array[i].age>array[ii].age){
+					count -= 1;
+				}
+			}
+			while(true){
+				if(newarray[count]==undefined){
+					newarray[count] = array[i];
+					break;
+				}else{
+					count -= 1;
+				}
+			}
+		}
+		$('.tbody').find('tr').remove();
+		for(var i = 0;i<newarray.length;i++){
+			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
+		}
+	});
+	$('#stb').click(function(){
+		array = students.find();
+		var newarray = Array(array.length);
+		for(var i = 0;i<newarray.length;i++){
+			var count = newarray.length-1;
+			for(var ii = 0;ii<newarray.length;ii++){
+				if(array[i].age<array[ii].age){
+					count -= 1;
+				}
+			}
+			while(true){
+				if(newarray[count]==undefined){
+					newarray[count] = array[i];
+					break;
+				}else{
+					count -= 1;
+				}
+			}
+		}
+		$('.tbody').find('tr').remove();
+		for(var i = 0;i<newarray.length;i++){
+			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
+		}
+	});
+	$('#young').val('young');
+	$('#big').click(function(){
+		if($('#young').val()=='young'){
+			$('#young').text('older');
+			$('#young').val('old');
+		}else{
+			$('#young').text('younger');
+			$('#young').val('young');
+		}
 	})
 </script>
