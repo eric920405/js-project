@@ -87,6 +87,7 @@
 	</div>
 	<button type="button" class="btn btn-primary" id="bts">big -> small</button>
 	<button type="button" class="btn btn-primary" id="stb">small -> big</button>
+	<button type="button" class="btn btn-primary" id="removeUnchecked">remove unchecked</button>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -118,7 +119,7 @@
 	var aobject;
 	$("#savebtn").click(function(){
 		aname = $("#name").val();
-		aage = $("#age").val();
+		aage = $("#age").val()*1;
 		students.insert({
 			name : aname,
 			age : aage,
@@ -127,7 +128,7 @@
 		aobject = students.find({
 			id : aid
 		});
-		$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button></td></tr>");
+		$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><input type='checkbox' class='check' data-check="+aobject[0]._id+"><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button></td></tr>");
 		$('body').append('<div class="modal fade changemodle" id ='+aobject[0]._id+' tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">correct</h4></div><div class="modal-body"><p>name:<input type="text" class="cname"></p><br><p>age:<input type="text" class="cage"></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary changebtn" data-dismiss="modal" data-change='+aobject[0]._id+'>Save changes</button></div></div></div></div>');
 		aid += 1;
 		array = students.find();
@@ -159,7 +160,7 @@
 		if($("#big").prop("checked")){
 			var searchage = students.find({
 				age:{
-					$gte:$('#searchage').val()
+					$gte:$('#searchage').val()*1
 				}
 			});
 			for(var i = 0;i<searchage.length;i++){
@@ -168,7 +169,7 @@
 		}else{
 			var searchage = students.find({
 				age:{
-					$lte:$('#searchage').val()
+					$lte:$('#searchage').val()*1
 				}
 			});
 			for(var i = 0;i<searchage.length;i++){
@@ -201,7 +202,7 @@
 		}
 		$('.tbody').find('tr').remove();
 		for(var i = 0;i<newarray.length;i++){
-			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
+			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><input type='checkbox' class='check' data-check="+newarray[i]._id+"><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
 		}
 	});
 	$('#stb').click(function(){
@@ -225,7 +226,7 @@
 		}
 		$('.tbody').find('tr').remove();
 		for(var i = 0;i<newarray.length;i++){
-			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
+			$(".tbody").append("<tr><td><span class='name' data-name="+newarray[i]._id+">"+newarray[i].name+"</span></td><td><span class='age' data-age="+newarray[i]._id+">"+newarray[i].age+"</span></td><td><input type='checkbox' class='check' data-check="+newarray[i]._id+"><button type='button' class='btn btn-warning btn-correct' data-correct="+newarray[i]._id+" data-toggle='modal' data-target='#"+newarray[i]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+newarray[i]._id+">remove</button></td></tr>");
 		}
 	});
 	$('#young').val('young');
@@ -237,5 +238,52 @@
 			$('#young').text('younger');
 			$('#young').val('young');
 		}
-	})
+	});
+	$('#removeUnchecked').click(function(){
+		array = students.find();
+		for(var i = 0;i<array.length;i++){
+			if($($('.tbody').find("[data-check='" + array[i]._id + "']")).prop("checked")==false){
+				$($($('.tbody').find("[data-check='" + array[i]._id + "']")).closest('tr')).remove();
+				students.remove({
+					_id:array[i]._id
+				});
+			}
+		}
+	});  //if ((event.which / 1) == 13)
+	$('#name').keypress(function(event){
+		if ((event.which / 1) == 13){
+			aname = $("#name").val();
+			aage = $("#age").val()*1;
+			students.insert({
+				name : aname,
+				age : aage,
+				id : aid
+			});
+			aobject = students.find({
+				id : aid
+			});
+			$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><input type='checkbox' class='check' data-check="+aobject[0]._id+"><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button></td></tr>");
+			$('body').append('<div class="modal fade changemodle" id ='+aobject[0]._id+' tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">correct</h4></div><div class="modal-body"><p>name:<input type="text" class="cname"></p><br><p>age:<input type="text" class="cage"></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary changebtn" data-dismiss="modal" data-change='+aobject[0]._id+'>Save changes</button></div></div></div></div>');
+			aid += 1;
+			array = students.find();
+		}
+	});
+	$('#age').keypress(function(event){
+		if ((event.which / 1) == 13){
+			aname = $("#name").val();
+			aage = $("#age").val()*1;
+			students.insert({
+				name : aname,
+				age : aage,
+				id : aid
+			});
+			aobject = students.find({
+				id : aid
+			});
+			$(".tbody").append("<tr><td><span class='name' data-name="+aobject[0]._id+">"+aname+"</span></td><td><span class='age' data-age="+aobject[0]._id+">"+aage+"</span></td><td><input type='checkbox' class='check' data-check="+aobject[0]._id+"><button type='button' class='btn btn-warning btn-correct' data-correct="+aobject[0]._id+" data-toggle='modal' data-target='#"+aobject[0]._id+"'>correct</button><button type='button' class='btn btn-danger btn-remove' data-remove="+aobject[0]._id+">remove</button></td></tr>");
+			$('body').append('<div class="modal fade changemodle" id ='+aobject[0]._id+' tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog" role="document"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">correct</h4></div><div class="modal-body"><p>name:<input type="text" class="cname"></p><br><p>age:<input type="text" class="cage"></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary changebtn" data-dismiss="modal" data-change='+aobject[0]._id+'>Save changes</button></div></div></div></div>');
+			aid += 1;
+			array = students.find();
+		}
+	});
 </script>
